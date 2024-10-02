@@ -1,0 +1,95 @@
+From 9e86199407900a8ae033f066b271e95024942bca Mon Sep 17 00:00:00 2001
+From: rafael <rafael.dousse@heig-vd.ch>
+Date: Fri, 29 Sep 2023 15:58:23 +0200
+Subject: [PATCH] End of lab02
+
+---
+ so3/kernel/main.c      |  2 +-
+ usr/src/CMakeLists.txt |  5 ++---
+ usr/src/hello.c        | 28 ++++++++++++++++++++++++++++
+ usr/src/sh.c           |  2 +-
+ 4 files changed, 32 insertions(+), 5 deletions(-)
+ create mode 100644 usr/src/hello.c
+
+diff --git a/so3/kernel/main.c b/so3/kernel/main.c
+index b0b72e0..446cea7 100644
+--- a/so3/kernel/main.c
++++ b/so3/kernel/main.c
+@@ -134,7 +134,7 @@ void kernel_start(void) {
+ 
+ 	calibrate_delay();
+ 
+-	hidden_init();
++	//hidden_init();
+ 
+ 	/*
+ 	 * Perform the rest of bootstrap sequence in a separate thread, so that
+diff --git a/usr/src/CMakeLists.txt b/usr/src/CMakeLists.txt
+index 783c34a..aa7fe07 100644
+--- a/usr/src/CMakeLists.txt
++++ b/usr/src/CMakeLists.txt
+@@ -3,11 +3,10 @@ add_executable(sh.elf sh.c)
+ add_executable(ls.elf ls.c)
+ add_executable(echo.elf echo.c)
+ add_executable(cat.elf cat.c)
+-
++add_executable(hello.elf hello.c)
+ 
+ target_link_libraries(sh.elf c)
+ target_link_libraries(ls.elf c)
+ target_link_libraries(echo.elf c)
+ target_link_libraries(cat.elf c)
+-
+-
++target_link_libraries(hello.elf c)
+diff --git a/usr/src/hello.c b/usr/src/hello.c
+new file mode 100644
+index 0000000..eab647f
+--- /dev/null
++++ b/usr/src/hello.c
+@@ -0,0 +1,28 @@
++#include <stdlib.h>
++#include <stdio.h>
++#include <string.h>
++
++
++int main(int argc, char *argv[]){
++
++    char hello[] = "Hello world !";
++
++    printf("%s\n", hello);
++
++    printf("%p\n", &hello);
++
++    //adress 0xbffcef2c
++    printf("%c\n", *(char*)0xbffcef2c);
++    
++
++    for(unsigned i=0; i < strlen(hello); ++i){
++        ++(*(char*)(0xbffcef2c + i));
++        
++    }
++    
++
++    printf("%s\n", hello);
++    printf("%c\n", *(char*)0xbffcef2c);
++
++    return 0;
++}
+\ No newline at end of file
+diff --git a/usr/src/sh.c b/usr/src/sh.c
+index 4f834a8..b96038e 100644
+--- a/usr/src/sh.c
++++ b/usr/src/sh.c
+@@ -198,7 +198,7 @@ void main(int argc, char *argv[])
+ 		if (strcmp(user_input, ""))
+ 			parse_token(user_input);
+ 
+-		*ptr = 0xdeadbeef;
++//		*ptr = 0xdeadbeef;
+ 
+ 		/* Check if there is at least one token to be processed */
+ 		if (tokens[0][0] != 0)
+-- 
+GitLab
+

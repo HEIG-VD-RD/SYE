@@ -1,0 +1,69 @@
+From 6d0af30984caac5a443fd0841cdeedebf27b94f5 Mon Sep 17 00:00:00 2001
+From: rafael <rafael.dousse@heig-vd.ch>
+Date: Fri, 15 Dec 2023 16:05:20 +0100
+Subject: [PATCH] first push
+
+---
+ usr/host/memsim.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+
+diff --git a/usr/host/memsim.c b/usr/host/memsim.c
+index a19d3a8..6b4e5d3 100644
+--- a/usr/host/memsim.c
++++ b/usr/host/memsim.c
+@@ -42,6 +42,12 @@ uint8_t main_mem[MEMORY_PAGE_NUM][MEMORY_PAGE_SIZE] = {0};
+ int virt_to_pte(uint16_t vaddr, uint16_t *pte)
+ {
+     // TO COMPLETE
++    uint8_t pageNum = (vaddr & 0xFF00) >> 8;
++
++    if(pageNum >= MEMORY_PAGE_NUM)
++        return -1;
++
++    *pte = page_table[pageNum];
+ 
+     return 0;
+ }
+@@ -59,6 +65,16 @@ int get_byte(uint16_t vaddr, uint8_t *byte) {
+ 
+     // TO COMPLETE
+ 
++     uint16_t pte ;
++    int result = virt_to_pte(vaddr, &pte);
++    if (result < 0)
++        return -1;
++    uint16_t paddr;
++
++    uint8_t offset = vaddr & 0x00FF;
++    uint8_t pageNum = pte >> 8;
++    *byte = main_mem[pageNum][offset];
++
+     return 0;
+ }
+ 
+@@ -73,6 +89,17 @@ int get_byte(uint16_t vaddr, uint8_t *byte) {
+  */
+ int store_byte(uint16_t vaddr, uint8_t byte) {
+     // TO COMPLETE 
++    uint16_t pte ;
++    int result = virt_to_pte(vaddr, &pte);
++    if (result < 0)
++        return -1;
++    uint16_t paddr;
++
++    uint8_t offset = vaddr & 0x00FF;
++    uint8_t pageNum = pte >> 8;
++    main_mem[pageNum][offset] = byte;
++
++
+     return 0;
+ }
+ 
+@@ -167,3 +194,4 @@ int main(int argc, char *argv[]) {
+ 
+     return 0;
+ }
++
+-- 
+GitLab
+

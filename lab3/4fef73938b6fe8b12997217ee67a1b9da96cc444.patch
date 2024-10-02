@@ -1,0 +1,65 @@
+From 4fef73938b6fe8b12997217ee67a1b9da96cc444 Mon Sep 17 00:00:00 2001
+From: rafael <rafael.dousse@heig-vd.ch>
+Date: Fri, 6 Oct 2023 15:37:50 +0200
+Subject: [PATCH] End of lab03
+
+---
+ so3/devices/timer/arm_timer.c |  4 ++++
+ so3/include/version.h         |  2 +-
+ usr/src/sh.c                  | 10 +++++++++-
+ 3 files changed, 14 insertions(+), 2 deletions(-)
+
+diff --git a/so3/devices/timer/arm_timer.c b/so3/devices/timer/arm_timer.c
+index 7ced21a..a03d618 100644
+--- a/so3/devices/timer/arm_timer.c
++++ b/so3/devices/timer/arm_timer.c
+@@ -87,6 +87,10 @@ static irq_return_t timer_isr(int irq, void *dev) {
+ #else
+ 		jiffies++;
+ 
++		if (jiffies % 80 == 0){
++			printk("jiffies: %lld\n", jiffies);
++		}
++
+ 		raise_softirq(TIMER_SOFTIRQ);
+ #endif
+ 	}
+diff --git a/so3/include/version.h b/so3/include/version.h
+index 49e2d42..a4a189f 100644
+--- a/so3/include/version.h
++++ b/so3/include/version.h
+@@ -19,7 +19,7 @@
+ 
+ #ifndef VERSION_H
+ 
+-/* CHANGES 2023.6.0 */
++/* CHANGES 2023.6.1 */
+ /**
+  * - Removed CONFIG_RAM_BASE and CONFIG_RAM_SIZE. These information are available from the device tree.
+  * - Removed old meminfo structure which is not used anymore.
+diff --git a/usr/src/sh.c b/usr/src/sh.c
+index 473e129..62740a2 100644
+--- a/usr/src/sh.c
++++ b/usr/src/sh.c
+@@ -194,9 +194,17 @@ void main(int argc, char *argv[])
+ 
+ 		gets(user_input);
+ 
+-		if (strcmp(user_input, ""))
++					 
++
++		if (strcmp(user_input, "")){
+ 			parse_token(user_input);
+ 
++			i = 0;
++			while (*tokens[i] != NULL){
++				printf("%s\n", tokens[i]);
++				i++;
++			}
++
+ 		/* Check if there is at least one token to be processed */
+ 		if (tokens[0][0] != 0)
+ 			process_cmd();
+-- 
+GitLab
+

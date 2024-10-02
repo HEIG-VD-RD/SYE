@@ -1,0 +1,87 @@
+From 9495900dede4f1a40f21f42b32c07eff4b9401b7 Mon Sep 17 00:00:00 2001
+From: rafael <rafael.dousse@heig-vd.ch>
+Date: Fri, 8 Dec 2023 15:38:49 +0100
+Subject: [PATCH] Labo10 pas finit
+
+---
+ rapport.md           | 30 ++++++++++++++++++++++++++++++
+ so3/arch/arm32/mmu.c |  2 +-
+ usr/src/memory.c     | 13 +++++++++++--
+ 3 files changed, 42 insertions(+), 3 deletions(-)
+
+diff --git a/rapport.md b/rapport.md
+index e69de29..734f9de 100644
+--- a/rapport.md
++++ b/rapport.md
+@@ -0,0 +1,30 @@
++# Rapport labo 10
++
++#### a) 
++Le code qui gére l'allocation dynamique dans le noyeau se trouve dans `so3/mm/heap.c`.
++
++#### b)
++L'algorithme de gestion de mémoire utilisé ici est l'algorithme quick-fit qui est initialisé a la ligne 47 dans le fichier `heap.c`. 
++
++#### c)
++ La configuration de la MMU se trouve dans le fichier `so3/mm/memory.c` ou on peut voir `#ifdef CONFIG_MMU` puis la gestion se fait dans le fichier `so3/arch/arm32/mmu.c` 
++#### f)
++```C
++so3% memory
++Adresse virtuelle 0x20d018
++Adresse physique 0x48bc0018
++so3% memory
++Adresse virtuelle 0x20d018
++Adresse physique 0x4cfda018
++so3% memory
++Adresse virtuelle 0x20d018
++Adresse physique 0x513f4018
++so3% memory
++Adresse virtuelle 0x20d018
++Adresse physique 0x5580e018
++so3% memory
++Adresse virtuelle 0x20d018
++Adresse physique 0x59c28018
++```
++
++On peut voir que l'adresse virtuelle est toujours la même et que l'adresse physique est différente à chaque fois excepté pour les bits de poids faible qui sont toujours `018` et qui est l'offset. C'est pareil pour l'adresse virtuelle et physique. 
+\ No newline at end of file
+diff --git a/so3/arch/arm32/mmu.c b/so3/arch/arm32/mmu.c
+index a6205ae..3bd34c5 100644
+--- a/so3/arch/arm32/mmu.c
++++ b/so3/arch/arm32/mmu.c
+@@ -640,6 +640,6 @@ addr_t virt_to_phys_pt(addr_t vaddr) {
+ 
+ // LEI: 2021_lab05
+ uint32_t do_translate(uint32_t vaddr) {
+-	return 0; //TO COMPLETE
++	return virt_to_phys_pt(vaddr); 
+ }
+ 
+diff --git a/usr/src/memory.c b/usr/src/memory.c
+index 1caa3b6..a53dd9d 100644
+--- a/usr/src/memory.c
++++ b/usr/src/memory.c
+@@ -5,9 +5,18 @@
+ #include <syscall.h>
+ 
+ int main(int argc, char **argv) {
+-    uint8_t *buffer;
++    //4ko= 2^12 = 4096
++    uint8_t *buffer = (uint8_t*)calloc(4096, sizeof(uint8_t));
+ 
+-    // TO COMPLETE
++    if(buffer == NULL) {
++        perror("calloc failed");
++        return EXIT_FAILURE;
++    }
++    else {
++         printf("Adresse virtuelle %p\n",buffer);
++         printf("Adresse physique %p\n", sys_translate((uint32_t)(buffer)));
++    }
+ 
++    free(buffer);
+     return EXIT_SUCCESS;
+ }
+-- 
+GitLab
+

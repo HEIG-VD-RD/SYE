@@ -1,0 +1,55 @@
+From 36583523dcf0a34f3f48c3f08d524207a9a7a914 Mon Sep 17 00:00:00 2001
+From: rafael <rafael.dousse@heig-vd.ch>
+Date: Mon, 16 Oct 2023 21:03:21 +0200
+Subject: [PATCH] End of lab05
+
+---
+ usr/src/sh.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/usr/src/sh.c b/usr/src/sh.c
+index 3569113..3dad6f5 100644
+--- a/usr/src/sh.c
++++ b/usr/src/sh.c
+@@ -57,6 +57,12 @@ void process_cmd(void) {
+ 	char *argv[ARGS_MAX];
+ 	char filename[30];
+ 	int pid, sig;
++	int background = 0;
++
++
++
++
++
+ 
+ 	/* PRIVATE to SYE team */
+ 
+@@ -135,7 +141,13 @@ void process_cmd(void) {
+ 	arg_pos = 0;
+ 	while (tokens[arg_pos][0] != 0) {
+ 		argv[arg_pos] = tokens[arg_pos];
++		if(!strcmp(argv[arg_pos], "&")){	
++			background = 1;
++			break;
++		}
+ 		arg_pos++;
++
++
+ 	}
+ 	/* Terminate the list of args properly */
+ 	argv[arg_pos] = NULL;
+@@ -156,8 +168,11 @@ void process_cmd(void) {
+ 
+ 	} else { /* Execution in the parent */
+ 
++	if(!background){
++
+ 		waitpid(pid_child, NULL, 0);
+ 	}
++	}
+ }
+ 
+ /*
+-- 
+GitLab
+

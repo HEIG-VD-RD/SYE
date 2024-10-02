@@ -1,0 +1,798 @@
+From 22fd1de54a6e41ed661e8011c3f493f0f9b86320 Mon Sep 17 00:00:00 2001
+From: rafael <rafael.dousse@heig-vd.ch>
+Date: Sat, 25 Nov 2023 15:45:38 +0100
+Subject: [PATCH] End of lab
+
+---
+ usr/host/battleship   | Bin 0 -> 24984 bytes
+ usr/host/battleship.c | 416 ++++++++++++++++++++++++++++++++++++------
+ 2 files changed, 358 insertions(+), 58 deletions(-)
+ create mode 100755 usr/host/battleship
+
+diff --git a/usr/host/battleship b/usr/host/battleship
+new file mode 100755
+index 0000000000000000000000000000000000000000..a0bde37bebc050db8f9ebfea211771c7595b75c8
+GIT binary patch
+literal 24984
+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
+
+literal 0
+HcmV?d00001
+
+diff --git a/usr/host/battleship.c b/usr/host/battleship.c
+index a7d05e6..ff389d4 100755
+--- a/usr/host/battleship.c
++++ b/usr/host/battleship.c
+@@ -8,16 +8,23 @@
+ #include <ctype.h>
+ #include <signal.h>
+ 
++#define SIZE_GRID 16
++
++int socketSend(int sock_fd, char *buf, const size_t size);
++
+ int forfeit = 0, sock_fd;
+ 
+ typedef enum
+ {
+-	DEFAULT = 0, BOAT, MISSED_SHOT, SUNKEN_BOAT
+-}gridState;
++	DEFAULT = 0,
++	BOAT,
++	MISSED_SHOT,
++	SUNKEN_BOAT
++} gridState;
+ 
+ typedef enum
+ {
+-	SERVER_LISTEN = 0, 
++	SERVER_LISTEN = 0,
+ 	SERVER_CLIENT_CONNECT,
+ 	CLIENT_CONNECTING,
+ 	CLIENT_CONNECTED,
+@@ -37,164 +44,322 @@ typedef enum
+ 	INV_BOAT_STACK,
+ 	USER_FORFEIT,
+ 	OPPONENT_FORFEIT
+-}stringsIdx;
++} stringsIdx;
+ 
+ const char *strings[] = {
+-	"Server listening on port",
++	"Server listening on port", // 0
+ 	"Client connected",
+ 	"Connecting to server",
+ 	"Connected to server successfully",
+ 	"Please enter 3 grid cells to place your boats into",
+-	"Waiting for opponent...",
++	"Waiting for opponent...", // 5
+ 	"Please enter a grid cell to attack your opponent",
+ 	"You attacked",
+ 	"Your opponent attacked",
+ 	"MISS",
+-	"HIT",
++	"HIT", // 10
+ 	"User grid",
+ 	"Opponent grid",
+ 	"YOU WON ^_^",
+ 	"YOU LOST T_T",
+-	"Invalid ! You already attacked this cell",
++	"Invalid ! You already attacked this cell", // 15
+ 	"Invalid ! Please enter a grid cell index between 0-F",
+ 	"Invalid ! You cannot place 2 boats on the same grid cell",
+ 	"You forfeited the game",
+-	"Your opponent forfeited the game"
+-};
+-
++	"Your opponent forfeited the game"};
+ 
+ /**
+  * @brief Forfeits the game when receiving SIGSTP (Ctrl+Z) signal
+- * 
++ *
+  * Signal routine to override default behaviour of SIGSTP. When this routine is called due to the reception of SIGSTP (Ctrl+Z in the shell) it sends a message on the socket to warn that the user wants to forfeit the game and then closes the socket file descriptor before exiting
+-*/
++ */
+ void quitGame(int sig)
+ {
+-	if(sig == SIGTSTP)
++	if (sig == SIGTSTP)
+ 	{
+ 		// TO COMPLETE: step 2
++		forfeit = 1;
++		char data = OPPONENT_FORFEIT;
++		
++		if (socketSend(sock_fd, &data, sizeof(char) < 0))
++		{
++			printf("Error sending data \n");
++			exit(1);
++		}
++		printf(" %s: %s \n", strings[USER_FORFEIT], strings[USER_LOST]);
++		if(close(sock_fd) < 0){
++			puts("socket close");
++			exit(1);
++		}
++		exit(0);
+ 	}
+ }
+ 
+ /**
+  * @brief Converts a single hexadecimal character to its decimal value
+- * 
++ *
+  * The hexadecimal digit may be lowercase or uppercase
+- * 
++ *
+  * @param digit the hexadecimal digit to convert
+- * 
++ *
+  * @returns The decimal value of the hexadecimal digit given or -1 if the given digit isn't hexadecimal
+-*/
++ */
+ int charToHex(const int digit)
+ {
+-	if(digit >= '0' && digit <= '9') return digit - '0';
++	if (digit >= '0' && digit <= '9')
++		return digit - '0';
+ 
+ 	int lowerDigit = tolower(digit);
+-	if(lowerDigit >= 'a' && lowerDigit <= 'f') return 10 + (lowerDigit - 'a');
++	if (lowerDigit >= 'a' && lowerDigit <= 'f')
++		return 10 + (lowerDigit - 'a');
+ 
+ 	return -1;
+ }
+ 
+ /**
+  * @brief Recovers a hexadecimal digit representing a grid cell from the user and returns its decimal value
+- * 
++ *
+  * Only the first input hexadecimal digit is returned. All other input characters are safely discarded. If the given hex digit is invalid, an error message is displayed and a new input is required
+- * 
++ *
+  * @returns The decimal value of the selected grid cell
+-*/
++ */
+ char promptCell()
+ {
+ 	char userInput = 0;
+ 	// TO COMPLETE
+ 
+-	return userInput;
++	while (1)
++	{
++
++		userInput = getchar();
++		while (getchar() != '\n' && !feof(stdin))
++			;
++
++		userInput = charToHex(userInput);
++		
++
++		if (userInput == -1)
++		{
++			printf("%s \n", strings[INV_CELL_VAL]);
++
++			continue;
++		}
++		else
++		{
++			return userInput;
++		}
++	}
+ }
+ 
+ /**
+  * @brief Prints a grid
+- * 
++ *
+  * Prints the given board with the following pattern and symbols:
+  * ~ ~ ~ 0
+  * ~ o ~ ~
+  * ~ 0 ~ o
+  * ~ ~ ~ X
+- * 
++ *
+  * ~: Default (water)
+  * 0: Boat
+  * o: Missed shot
+  * X: Sunken boat
+-*/
++ */
+ void printBoard(const char *grid)
+ {
+ 	const char symbols[] = "~0oX";
+ 	// TO COMPLETE
++	for (int i = 0; i < SIZE_GRID; i++)
++	{
++		if (i % 4 == 0 && i != 0)
++		{
++			printf("\n");
++		}
++		printf("%c ", symbols[grid[i]]);
++	}
++	printf("\n");
+ }
+ 
+ /**
+  * @brief Recovers size bytes from the socket_fd file descriptor and stores them in the buf buffer
+- * 
++ *
+  * @returns -1 if an error occured, 0 otherwise
+-*/
++ */
+ int socketRecv(const int sock_fd, char *buf, const size_t size)
+ {
+ 	// TO COMPLETE
++
++
++	
++	if (read(sock_fd, buf, size) < 0)
++	{
++		puts("Error socket recv");
++		return -1;
++	}
+ 	
+ 	return 0;
+ }
+ 
+ /**
+  * @brief Sends size bytes from the buf buffer to the sock_fd file descriptor
+- * 
++ *
+  * @returns -1 if an error occured, 0 otherwise
+-*/
++ */
+ int socketSend(const int sock_fd, char *buf, const size_t size)
+ {
+ 	// TO COMPLETE
++
++
++	
++	if (write(sock_fd, buf, size) < 0)
++	{
++		puts("Error socket send");
++	}
++	
++	return 0;
+ }
+ 
+ /**
+  * @brief Creates a server that waits for a client before returning
+- * 
++ *
+  * The server is created and then waits for a client to connect with accept. Once a client is connected, the server's file descriptor is closed and the client's file descriptor is returned
+- * 
++ *
+  * @returns -1 if an error occured, the client's file descriptor as returned by accept otherwise
+-*/
++ */
+ int server_create(const int port)
+ {
+ 	// TO COMPLETE
++	int listen_fd = 0, conn_fd = 0, bindVal = 0;
+ 
+-	return 0;
++	struct sockaddr_in serv_addr;
++
++	listen_fd = socket(AF_INET, SOCK_STREAM, 0);
++	if (listen_fd < 0)
++	{
++		printf("Error creating socket \n");
++		return -1;
++	}
++
++	memset(&serv_addr, 0, sizeof(serv_addr));
++
++	serv_addr.sin_family = AF_INET;
++	serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
++	serv_addr.sin_port = htons(port);
++
++	bindVal = bind(listen_fd, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
++	if (bindVal < 0)
++	{
++		printf("Error binding \n");
++		close(listen_fd);
++		return -1;
++	}
++
++	// Listen for incoming connections and accept one. There's no need to listen for more than one connection
++	if (listen(listen_fd, 1) < 0)
++	{
++		printf("Error listening \n");
++		close(listen_fd);
++		return -1;
++	}
++
++	printf("%s %d... \n", strings[SERVER_LISTEN], port);
++	conn_fd = accept(listen_fd, (struct sockaddr *)NULL, NULL);
++	if (conn_fd < 0)
++	{
++		printf("Error accepting \n");
++		close(listen_fd);
++		return -1;
++	}
++
++	printf("%s \n", strings[SERVER_CLIENT_CONNECT]);
++
++	return conn_fd;
+ }
+ 
+ /**
+  * @brief Creates a client that connects to a server before returning
+- * 
++ *
+  * @returns -1 if an error occured, the file descriptor of the server as returned by connect otherwise
+-*/
++ */
+ int client_connect(const char *ip_addr, const int port)
+ {
+ 	// TO COMPLETE
++	int socket_fd = 0;
+ 
+-	return 0;
++	// Create a variable sockadd_in to store the server address and other information
++	struct sockaddr_in serv_addr;
++
++	// Create socket with Internet domain and TCP protocol
++	if ((socket_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
++	{
++		printf("Error creating socket \n");
++		return -1;
++	}
++	memset(&serv_addr, 0, sizeof(serv_addr));
++
++	// Configure server address
++	serv_addr.sin_family = AF_INET;
++	serv_addr.sin_port = htons(port);
++
++	if (inet_pton(AF_INET, ip_addr, &serv_addr.sin_addr) <= 0)
++	{
++		printf("Error inet_pton \n");
++		return -1;
++	}
++	printf("%s on %s:%d \n", strings[CLIENT_CONNECTING], ip_addr, port);
++
++	// Try connecting to server
++
++	if (connect(socket_fd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
++	{
++		printf("Error connecting \n");
++		return -1;
++	}
++	// Connected to server
++	printf("%s to %s:%d \n", strings[CLIENT_CONNECTED], ip_addr, port);
++
++	return socket_fd;
++}
++/**
++ * @brief Converts a "hexadecimal" value to its Ascii representation
++ * 
++ * @returns The Ascii decimal value of the hexadecimal digit given or -1 if the given digit isn't hexadecimal
++ */
++int hexToChar(const int hexValue)
++{
++	if (hexValue >= 0 && hexValue <= 9)
++	{
++		return hexValue + '0';
++	}
++	else if (hexValue >= 10 && hexValue <= 15)
++	{
++		return hexValue - 10 + 'A';
++	}
++	else
++	{
++		return -1;
++	}
+ }
+ 
+ int main(int argc, char const *argv[])
+ {
+ 	char userGrid[16], advGrid[16];
+ 	const char *ip_addr = "127.0.0.1";
+-	int server = 0, fd = 0, userInput, port = 5000;
++	int server = 0, userInput, port = 5000;
+ 
+ 	// Verify arguments and configure
+ 	for (size_t i = 0; i < argc; i++)
+ 	{
+-		if(i == 0) continue;
+-		if(strcmp(argv[i], "-s") == 0) server = 1;
+-		else if(strcmp(argv[i], "-a") == 0)
++		if (i == 0)
++			continue;
++		if (strcmp(argv[i], "-s") == 0)
++			server = 1;
++		else if (strcmp(argv[i], "-a") == 0)
+ 		{
+ 			ip_addr = argv[i + 1];
+ 			i++;
+ 		}
+-		else if(strcmp(argv[i], "-p") == 0)
++		else if (strcmp(argv[i], "-p") == 0)
+ 		{
+ 			port = atoi(argv[i + 1]);
+ 			i++;
+@@ -207,37 +372,172 @@ int main(int argc, char const *argv[])
+ 	}
+ 
+ 	// TO COMPLETE: Init game boards and ask user for boat placement
+-	
+-	
++	memset(userGrid, DEFAULT, SIZE_GRID);
++	memset(advGrid, DEFAULT, SIZE_GRID);
++
++	printf("%s \n", strings[BOAT_PLACE]);
++	for (int i = 0; i < 3; i++)
++	{
++		userInput = promptCell();
++		if (userGrid[userInput] == BOAT)
++		{
++			printf("%s \n", strings[INV_BOAT_STACK]);
++			i--;
++		}
++		else
++		{
++			userGrid[userInput] = BOAT;
++		}
++	}
++
+ 	// TO COMPLETE: Print board
+-	
++	printf("%s \n", strings[USER_GRID]);
++	printBoard(userGrid);
+ 
+ 	// TO COMPLETE: Init socket communication according to role
+-	
++	if (server)
++	{
++		sock_fd = server_create(port);
++		if (sock_fd < 0)
++		{
++			printf("Error creating server \n");
++			exit(1);
++		}
++	}
++	else
++	{
++		sock_fd = client_connect(ip_addr, port);
++		if (sock_fd < 0)
++		{
++			printf("Error connecting to server \n");
++			exit(1);
++		}
++	}
+ 
+ 	// TO COMPLETE (part 2): Setup signal handler for forfeit
+-	
+-	
++	signal(SIGTSTP, quitGame);
++
+ 	// Run game according to role
+ 	int userBoats = 3, advBoats = 3;
+ 	char data = 0;
+ 	int validInput = 0;
+ 	char usrInput = 0;
+-	int firstIter = 1;
+-	while(1)
++	int firstIter = server ? 1 : -1;
++
++	while (1)
+ 	{
+ 		// TO COMPLETE
+-		
+-	}
++		if (firstIter > 0)
++		{
++			printf("%s\n", strings[ATTACK_CELL]);
+ 
+-	// TO COMPLETE (part 2): Check forfeit (out of game loop without all user or opponent's boats destroyed)
++			while (validInput == 0)
++			{
++				usrInput = promptCell();
++				if (advGrid[usrInput] == MISSED_SHOT || advGrid[usrInput] == SUNKEN_BOAT)
++				{
++					printf("%s \n", strings[INV_CELL_ATTACKED]);
++				}
++				else
++				{
++					validInput = 1;
++				}
++			}
++			validInput = 0;
+ 
++			//printf("%c\n", hexToChar(usrInput));
++			if (socketSend(sock_fd, &usrInput, sizeof(usrInput)) < 0)
++			{
++				printf("Error sending data \n");
++				exit(1);
++			}
+ 
+-	// TO COMPLETE: Close socket file descriptor
+-	
++			puts(strings[OPPONENT_WAIT]);
+ 
+-	return 0;
+-}
++			if (socketRecv(sock_fd, &data, sizeof(data)) < 0)
++			{
++				printf("Error receiving data \n");
++				exit(1);
++			}
+ 
++			if (data == HIT)
++			{
++				advGrid[usrInput] = SUNKEN_BOAT;
++				advBoats--;
++			}
++			else if (data == MISS)
++			{
++				advGrid[usrInput] = MISSED_SHOT;
++			}
++			else if (data == OPPONENT_FORFEIT)
++			{
++				puts(strings[OPPONENT_FORFEIT]);
++				forfeit = 1;
++				break;
++			}
+ 
++			printf("%s %c: %s\n", strings[USER_ATTACK], hexToChar(usrInput), strings[data]);
+ 
++			puts(strings[OPPONENT_GRID]);
++			printBoard(advGrid);
++
++			firstIter = -firstIter;
++		}
++		else
++		{
++			printf("%s\n", strings[OPPONENT_WAIT]);
++			if (socketRecv(sock_fd, &data, sizeof(data)) < 0)
++			{
++				printf("Error receiving data \n");
++				exit(1);
++			}
++			
++			
++			if(data == OPPONENT_FORFEIT){
++				forfeit = 1;
++				break;
++			}
++
++
++			if(userGrid[data] == BOAT){
++				userBoats--;
++				userGrid[data] = SUNKEN_BOAT;
++				usrInput = HIT;
++			} else if(userGrid[data] == DEFAULT){
++				userGrid[data] = MISSED_SHOT;
++				usrInput = MISS;
++			} 
++
++			if (socketSend(sock_fd, &usrInput, sizeof(usrInput)) < 0)
++			{
++				printf("Error sending data \n");
++				exit(1);
++			}
++
++			printf("%s %c: %s\n",strings[OPPONENT_ATTACK],  hexToChar(data), strings[usrInput]);
++			printBoard(userGrid);
++			firstIter = -firstIter;
++			}
++			if (userBoats == 0) {
++            puts(strings[USER_LOST]);
++            break;
++        } else if (advBoats == 0) {
++            puts(strings[USER_WON]);
++            break;
++        }
++	}
++
++	// TO COMPLETE (part 2): Check forfeit (out of game loop without all user or opponent's boats destroyed)
++		//Doesn't work completely and I don't know why
++		if(forfeit == 1){
++			printf("\n%s : %s\n", strings[OPPONENT_FORFEIT], strings[USER_WON]);
++		}
++	// TO COMPLETE: Close socket file descriptor
++		
++	    if (close(sock_fd) < 0) {
++        puts("socket close");
++        return -1;
++    }
++
++	return 0;
++}
+-- 
+GitLab
+

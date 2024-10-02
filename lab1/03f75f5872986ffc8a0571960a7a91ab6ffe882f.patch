@@ -1,0 +1,35 @@
+From 03f75f5872986ffc8a0571960a7a91ab6ffe882f Mon Sep 17 00:00:00 2001
+From: rafael <rafael.dousse@heig-vd.ch>
+Date: Fri, 22 Sep 2023 16:00:21 +0200
+Subject: [PATCH] End of lab
+
+---
+ rapport.md | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/rapport.md b/rapport.md
+index e69de29..823320e 100644
+--- a/rapport.md
++++ b/rapport.md
+@@ -0,0 +1,18 @@
++# Réponses aux questions
++
++### Question a)
++a. Le kernel <br>
++b. user <br>
++c. user <br>
++d. Le kernel <br>
++
++### Question b)
++Pour le kernel c'est ```so3``` et pour le user c'est le dossier ```usr``` 
++
++### Question c)
++a. Le chemin est `usr/lib/libc` <br>
++b. Dans la couche user. C'est une librairie qui peut être utilisé par l'utilisateur... <br>
++c. Du coup elle ne se trouve pas dans la couche kernel donc elle ne peut pas être utilisé
++
++### Question d)
++Le chemin est `so3/arch`. arm32 et arm64
+-- 
+GitLab
+

@@ -1,0 +1,126 @@
+From 95a8c3229da246d665feaf6c7a677b2faf8a827f Mon Sep 17 00:00:00 2001
+From: rafael <rafael.dousse@heig-vd.ch>
+Date: Thu, 28 Dec 2023 03:46:05 +0100
+Subject: [PATCH] end of lab
+
+---
+ usr/host/memsim.c | 69 ++++++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 63 insertions(+), 6 deletions(-)
+
+diff --git a/usr/host/memsim.c b/usr/host/memsim.c
+index c6835a9..2a8d956 100644
+--- a/usr/host/memsim.c
++++ b/usr/host/memsim.c
+@@ -22,12 +22,28 @@
+ #include <stdint.h>
+ 
+ /* Activate memory attributes */
+-#define MEMORY_PTE_ATTRIBUTES_ACTIVE    0
+ 
++#define MEMORY_REPARTITION_8_8     0
++#define MEMORY_PTE_ATTRIBUTES_ACTIVE    1
++
++#if MEMORY_REPARTITION_8_8
++
++//Repartition (8|8)
+ #define MEMORY_PAGE_NUM         256
+ #define MEMORY_PAGE_SIZE        256
+-
+ #define PAGE_NUM_SHIFT 8
++#define MASK_OFFSET 0xFF
++
++#else
++
++//Repartition (6|10)
++#define MEMORY_PAGE_NUM         64
++#define MEMORY_PAGE_SIZE        1024
++#define PAGE_NUM_SHIFT 10
++#define MASK_OFFSET 0x3FF
++
++
++#endif
+ 
+ /* Defines for step 3 */
+ #define VALID_BIT       (1 << 0)
+@@ -86,7 +102,24 @@ int get_byte(uint16_t vaddr, uint8_t *byte) {
+     {
+         return -1;
+     }
+-    *byte = main_mem[c_pte >> 8][vaddr & 0xFF];
++
++    #if MEMORY_PTE_ATTRIBUTES_ACTIVE
++   
++        if (!((c_pte & VALID_BIT) >> VALID_POS))  {
++            PAGE_FAULT(vaddr, "Page not valid");
++            return -1;
++        }  
++
++        uint8_t bitsToCheck = (c_pte & RWX_BITS) >> RWX_POS;
++
++        if (bitsToCheck == W_PATTERN) {
++            PAGE_FAULT(vaddr, "Write only page");
++            return -1;
++        }
++
++    #endif
++
++    *byte = main_mem[c_pte >> PAGE_NUM_SHIFT][vaddr & MASK_OFFSET];
+     return 0;
+ }
+ 
+@@ -105,7 +138,24 @@ int store_byte(uint16_t vaddr, uint8_t byte) {
+     {
+         return -1;
+     }
+-    main_mem[c_pte >> 8][vaddr & 0xFF] = byte;
++
++    #if MEMORY_PTE_ATTRIBUTES_ACTIVE
++   
++    if (!((c_pte & VALID_BIT) >> VALID_POS))  {
++        PAGE_FAULT(vaddr, "Page not valid");
++        return -1;
++    }  
++
++    uint8_t bitsToCheck = (c_pte & RWX_BITS) >> RWX_POS;
++
++    if (bitsToCheck == R_PATTERN || bitsToCheck == X_PATTERN) {
++        PAGE_FAULT(vaddr, "Read only page");
++        return -1;
++    }
++
++    #endif
++
++    main_mem[c_pte >> PAGE_NUM_SHIFT][vaddr & MASK_OFFSET] = byte;
+     return 0;
+ }
+ 
+@@ -206,7 +256,7 @@ int test_mem_2()
+                     return -1;
+                 }
+                 if (store_byte(vaddr, 0x01) < 0) {
+-                    printf("Readonly test failed @0x%04x\n", vaddr);
++                    printf("Readonly test failed @0x%04x\n", vaddr);
+                     return -1;
+                 }
+             }
+@@ -229,9 +279,16 @@ void init_page_table(void) {
+ 
+ #if MEMORY_PTE_ATTRIBUTES_ACTIVE
+         // TO COMPLETE: Make virtual pages 10 to 12 read-only
+-        
++        if(i >= 10 && i <= 12) {
++            page_table[i] |= (R_PATTERN << RWX_POS);
++        }       
+ 
+         // TO COMPLETE: Valid bit
++        if(i >= 5 && i <= 8) {
++            page_table[i] |= (0 << VALID_POS);
++        } else {
++            page_table[i] |= (1 << VALID_POS);
++        }
+         
+ 
+         // TO COMPLETE: Make virtual pages 5 to 8 not valid 
+-- 
+GitLab
+

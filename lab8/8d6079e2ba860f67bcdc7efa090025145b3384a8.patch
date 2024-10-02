@@ -1,0 +1,82 @@
+From 8d6079e2ba860f67bcdc7efa090025145b3384a8 Mon Sep 17 00:00:00 2001
+From: rafael <rafael.dousse@heig-vd.ch>
+Date: Sun, 26 Nov 2023 16:45:38 +0100
+Subject: [PATCH] =?UTF-8?q?petit=20changement=20mais=20y=20a=20toujours=20?=
+ =?UTF-8?q?un=20probl=C3=A8me=20avec=20SIGSTP?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ usr/host/battleship.c | 26 ++++++++++++++++----------
+ 1 file changed, 16 insertions(+), 10 deletions(-)
+
+diff --git a/usr/host/battleship.c b/usr/host/battleship.c
+index ff389d4..e50f5b8 100755
+--- a/usr/host/battleship.c
++++ b/usr/host/battleship.c
+@@ -86,6 +86,7 @@ void quitGame(int sig)
+ 			printf("Error sending data \n");
+ 			exit(1);
+ 		}
++		
+ 		printf(" %s: %s \n", strings[USER_FORFEIT], strings[USER_LOST]);
+ 		if(close(sock_fd) < 0){
+ 			puts("socket close");
+@@ -460,7 +461,13 @@ int main(int argc, char const *argv[])
+ 				exit(1);
+ 			}
+ 
+-			if (data == HIT)
++
++			if(data == OPPONENT_FORFEIT){
++				puts(strings[OPPONENT_FORFEIT]);
++				forfeit = 1;
++				break;
++			}
++			else if (data == HIT)
+ 			{
+ 				advGrid[usrInput] = SUNKEN_BOAT;
+ 				advBoats--;
+@@ -469,13 +476,7 @@ int main(int argc, char const *argv[])
+ 			{
+ 				advGrid[usrInput] = MISSED_SHOT;
+ 			}
+-			else if (data == OPPONENT_FORFEIT)
+-			{
+-				puts(strings[OPPONENT_FORFEIT]);
+-				forfeit = 1;
+-				break;
+-			}
+-
++			
+ 			printf("%s %c: %s\n", strings[USER_ATTACK], hexToChar(usrInput), strings[data]);
+ 
+ 			puts(strings[OPPONENT_GRID]);
+@@ -493,7 +494,12 @@ int main(int argc, char const *argv[])
+ 			}
+ 			
+ 			
++			
++			
++			//printf("Data: %d\n", data);
++			//Issue with the reception 	of data when SIGSTOP is called since we receive 0 and not 19. I don't know why
+ 			if(data == OPPONENT_FORFEIT){
++				
+ 				forfeit = 1;
+ 				break;
+ 			}
+@@ -517,8 +523,8 @@ int main(int argc, char const *argv[])
+ 			printf("%s %c: %s\n",strings[OPPONENT_ATTACK],  hexToChar(data), strings[usrInput]);
+ 			printBoard(userGrid);
+ 			firstIter = -firstIter;
+-			}
+-			if (userBoats == 0) {
++		}
++		if (userBoats == 0) {
+             puts(strings[USER_LOST]);
+             break;
+         } else if (advBoats == 0) {
+-- 
+GitLab
+

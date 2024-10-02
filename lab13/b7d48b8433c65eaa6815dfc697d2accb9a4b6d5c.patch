@@ -1,0 +1,133 @@
+From b7d48b8433c65eaa6815dfc697d2accb9a4b6d5c Mon Sep 17 00:00:00 2001
+From: rafael <rafael.dousse@heig-vd.ch>
+Date: Fri, 19 Jan 2024 22:27:48 +0100
+Subject: [PATCH] end of lab
+
+---
+ usr/host/memreplace.c | 84 ++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 80 insertions(+), 4 deletions(-)
+
+diff --git a/usr/host/memreplace.c b/usr/host/memreplace.c
+index d869121..00ad2a5 100644
+--- a/usr/host/memreplace.c
++++ b/usr/host/memreplace.c
+@@ -26,18 +26,80 @@
+ /* [0] = Valid on 1 bit */
+ uint8_t page_table[NB_PAGES] = {0};
+ 
++uint16_t tvc = 0;
++uint16_t tdu[NB_PAGES] = {0};
+ 
+ void replaceLRU(void) {
+     // TO COMPLETE
++	int toReplace = -1;
++	for (size_t i = 0; i < NB_PAGES; ++i) {
++		if (!(page_table[i] & VALID_BIT_MASK))
++			continue;
++
++		if (toReplace == -1 || tdu[i] < tdu[toReplace])
++			toReplace = i;
++	}
++
++	if (toReplace == -1) {
++		printf("Error: valid page not found\n");
++		exit(-1);
++	}
++	page_table[toReplace] &= ~VALID_BIT_MASK;
++	page_table[toReplace] |= SWAP_BIT_MASK;
++
++}
++
++void intCompteur(int page_no){
++    if(page_no >= NB_PAGES && page_no < 0){
++        printf("Invalid page");
++        return;
++    }
++    tdu[page_no] = ++tvc;
++
++
+ }
+ 
+ 
+ void replaceWSC(void) {
+     // TO COMPLETE
++       int replace_index = -1;
++    for (size_t i = 0; i < NB_PAGES; ++i) {
++        if (!(page_table[i] & VALID_BIT_MASK)) {
++            continue;
++        }
++
++        if (replace_index == -1) {
++            replace_index = i;
++        }
++        if (page_table[i] & REF_BIT_MASK) {
++			page_table[i] &= ~REF_BIT_MASK;
++            continue;
++		} 
++        
++        if (tvc - tdu[i] > DELTA) {
++			replace_index = i;
++			break;
++		}
++    }
++
++    if (replace_index == -1) {
++        printf("No page to replace\n");
++        exit(1);
++    }
++
++    page_table[replace_index] &= ~VALID_BIT_MASK;
++    page_table[replace_index] |= SWAP_BIT_MASK;
++ 
+ }
+ 
+ void updateTDU(void) {
+     // TO COMPLETE
++        for (size_t i = 0; i < NB_PAGES; ++i) {
++       if (page_table[i] & REF_BIT_MASK & VALID_BIT_MASK) {
++           tdu[i] = tvc;
++       }
++   }
++ 
+ }
+ 
+ void init_page_table(void) {
+@@ -121,17 +183,31 @@ int main(int argc, char *argv[]) {
+             if (page_no >= 0 && page_no < NB_PAGES) {
+                 if (LRU_run) {
+                     /* LRU Related */
+-                    if (!(page_table[page_no] & VALID_BIT_MASK)) /* VALID = 0 ? */
++                    if (!(page_table[page_no] & VALID_BIT_MASK)){
++                        /* VALID = 0 ? */
+                         replaceLRU();
+-                    
+-                    // TO COMPLETE
++                        
++                        // TO COMPLETE
++                        page_table[page_no] &= ~SWAP_BIT_MASK;
++                        page_table[page_no] |=  VALID_BIT_MASK;
++
++                    } 
++                    intCompteur(page_no);
++
+                 }
+                 else {
+                     /* WSC Related */
+-                    if (!(page_table[page_no] & VALID_BIT_MASK)) /* VALID = 0 ? */
++                    if (!(page_table[page_no] & VALID_BIT_MASK)) {/* VALID = 0 ? */
+                         replaceWSC();
+ 
+                     // TO COMPLETE
++                     page_table[page_no] &= ~SWAP_BIT_MASK;
++                    }
++                     page_table[page_no] |= REF_BIT_MASK;
++                    page_table[page_no] |= VALID_BIT_MASK;
++                    
++                    tvc++;
++                    updateTDU();
+                 }
+ 
+                 print_memory();
+-- 
+GitLab
+

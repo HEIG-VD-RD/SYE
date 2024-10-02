@@ -1,0 +1,295 @@
+From c93ae5a3d757d86134126ab202663dff8f3b130f Mon Sep 17 00:00:00 2001
+From: rafael <rafael.dousse@heig-vd.ch>
+Date: Sun, 28 Jan 2024 16:59:25 +0100
+Subject: [PATCH] j'ai des problemes avec le fichier stat.h qui n'est pas le
+ bon dans l'inclue (il me semble)
+
+---
+ usr/src/ln.c |  23 +++++++++++++++
+ usr/src/ls   | Bin 0 -> 20808 bytes
+ usr/src/ls.c |  82 ++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 3 files changed, 104 insertions(+), 1 deletion(-)
+ create mode 100755 usr/src/ls
+
+diff --git a/usr/src/ln.c b/usr/src/ln.c
+index 1bfb131..bad4ef4 100644
+--- a/usr/src/ln.c
++++ b/usr/src/ln.c
+@@ -24,5 +24,28 @@ int main(int argc, char *argv[])
+ 	f_dst = argv[2];
+ 
+ 	// TO COMPLETE
++	int fd;
++	if((fd = open(f_src, O_RDONLY)) < 0)
++	{
++		printf("Error opening file %s\n", f_src);
++		exit(1);
++	}
++
++	if(sys_symlink(fd, f_dst) < 0){
++		printf("Error creating symlink\n");
++		if (close(fd) < 0)
++				printf("Error! In Close\n");
++				return EXIT_FAILURE;
++
++		}
++
++	if (close(fd) < 0){
++		printf("Error! In Close\n");
++		
++	}
++		
++
++	
++
+ 	return 0;
+ }
+diff --git a/usr/src/ls b/usr/src/ls
+new file mode 100755
+index 0000000000000000000000000000000000000000..4218da8bdb2b5d3ae31965746525f5a0b2d4b34c
+GIT binary patch
+literal 20808
+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
+
+literal 0
+HcmV?d00001
+
+diff --git a/usr/src/ls.c b/usr/src/ls.c
+index d58c5d1..22de498 100644
+--- a/usr/src/ls.c
++++ b/usr/src/ls.c
+@@ -39,6 +39,21 @@ char *bytes_to_human_readable(const unsigned long int bytes, char *buf)
+ 
+ 	//TO COMPLETE: Convert to human readable format
+ 
++	double size = bytes;
++	int i = 0;
++	while (size > 1024)
++	{
++		size = size / 1024;
++		i++;		
++	}
++
++	 
++	  if (sprintf(buf, "% .2lf %sB", size, prefix[i]) < 0) {
++        strcpy(buf, "Erreur de formatage");
++    }
++			
++	
++
+ 	return buf;
+ }
+ 
+@@ -50,6 +65,11 @@ char *attr_to_str(mode_t mod, char *buf)
+ 
+ 	//TO COMPLETE: Interpret mode
+ 
++	//Ce n'est pas exactement ces defines qu'il faut utiliser mais :AM_RD, AM_WR, AM_EX
++	//Le problème est que l'include m'import pas le bon fichier stat.h
++	buf[1] = mod & S_IRUSR ? 'r' : '-';
++	buf[2] = mod & S_IWUSR ? 'w' : '-';
++	buf[3] = mod &  S_IXUSR ? 'x' : '-';
+ 	return buf;
+ }
+ 
+@@ -63,12 +83,71 @@ void print_info_file(const char *file, int is_dir, int extended)
+ 	time_t time;
+ 	struct tm tm;
+ 
++
++	
+ 	if (!extended) {
+ 		printf("%s%s\n", file, is_dir ? "/" : "");
+ 
+ 	} else {
+ 		//TO COMPLETE: Print extended informations about file
+-	}
++			
++
++			if(stat(file, &f_stat) < 0){
++				printf("Erreur de stat\n");
++				exit(1);
++			}
++
++			attr_to_str(f_stat.st_mode, modes);
++			bytes_to_human_readable(f_stat.st_size, size);
++
++			//J'ai un problème a la compilation 
++			//Ou j'ai une message que me dit:
++			//"error: request for member 'tv_sec' in something not a structure or union 41 | #define st_mtime st_mtim.tv_sec "
++			tm = *localtime(&f_stat.st_mtime);
++			sprintf(date, "%d-%d-%d %d:%d", tm.tm_year + 1900,
++					tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min);
++			if (is_dir) {
++				modes[0] = 'd';
++			}
++
++			//Je met 0x40 car c est le AM_SYM dans le fichier stat.h
++			//Mais l'include m'import pas le bon fichier stat.h
++			if(f_stat.st_mode & 0x40){
++				modes[0] = 'l';
++
++				int fd;
++				//Chez moi ça ne trouve pas le define suivant car
++				//l'include m'import pas le bon fichier stat.h
++				if ((fd = open(file, O_PATH | O_NOFOLLOW)) < 0) {
++					printf("Failed to open!\n");
++					return;
++				}
++
++				char nameFile[80];
++				int n;
++				if (n = read(fd, nameFile, 80) < 0) {
++					printf("Failed to read!\n");
++					close(fd);
++					return;
++				}
++
++				nameFile[n] = 0;
++
++				if (close(fd) < 0) {
++					printf("Failed to close!\n");
++					return;
++				}
++				printf("%s | %s | %s | %s -> %s\n", modes, date, size, file, nameFile);
++			} else {
++				printf("%s | %s | %s | %s%s\n", modes, date, size, file, is_dir ? "/" : "");
++			}
++			
++
++
++
++			
++			
++		}
+ }
+ 
+ /*
+@@ -92,6 +171,7 @@ int main(int argc, char **argv)
+ 
+ 		if (!strcmp(argv[1], "-l")) {
+ 			extended = 1;
++
+ 			if (argc != 2) {
+ 				dir = argv[2];
+ 			} else {
+-- 
+GitLab
+
